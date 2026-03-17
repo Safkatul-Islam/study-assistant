@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:3000"]
 
     # Database
-    database_url: str = "postgresql+asyncpg://studyforge:studyforge@localhost:5432/studyforge"
+    database_url: str = "postgresql+asyncpg://studyforge:studyforge@127.0.0.1:5433/studyforge"
 
     # Redis
     redis_url: str = "redis://localhost:6379/0"

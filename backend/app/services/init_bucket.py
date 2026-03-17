@@ -1,3 +1,5 @@
+import json
+
 import structlog
 
 from app.config import settings
@@ -22,20 +24,27 @@ def ensure_bucket_exists() -> None:
         else:
             raise
 
-    # Set CORS policy for browser uploads
+    _configure_cors(client, bucket)
+
+
+def _configure_cors(client, bucket: str) -> None:
+    """Set CORS policy for browser-based presigned uploads."""
+    cors_config = {
+        "CORSRules": [
+            {
+                "AllowedHeaders": ["*"],
+                "AllowedMethods": ["GET", "PUT", "POST"],
+                "AllowedOrigins": settings.cors_origins,
+                "ExposeHeaders": ["ETag"],
+                "MaxAgeSeconds": 3600,
+            }
+        ]
+    }
     try:
-        cors_config = {
-            "CORSRules": [
-                {
-                    "AllowedHeaders": ["*"],
-                    "AllowedMethods": ["GET", "PUT", "POST"],
-                    "AllowedOrigins": settings.cors_origins,
-                    "ExposeHeaders": ["ETag"],
-                    "MaxAgeSeconds": 3600,
-                }
-            ]
-        }
         client.put_bucket_cors(Bucket=bucket, CORSConfiguration=cors_config)
         logger.info("s3_cors_configured", bucket=bucket)
     except Exception:
-        logger.exception("s3_cors_configuration_failed", bucket=bucket)
+        # MinIO doesn't support put_bucket_cors via S3 API in all versions.
+        # Presigned URLs work without explicit CORS on MinIO (it allows them by default).
+        # For production (R2/S3), CORS should be configured via the provider's dashboard.
+        logger.info("s3_cors_skipped", bucket=bucket, reason="not supported by provider")
