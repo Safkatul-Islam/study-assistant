@@ -38,6 +38,9 @@ dependencies = [
     # PDF processing
     "pymupdf>=1.24.0",
 
+    # Tokenization
+    "tiktoken>=0.7.0",
+
     # AI
     "openai>=1.30.0",
     "anthropic>=0.49.0",
