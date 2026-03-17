@@ -50,6 +50,13 @@ class Settings(BaseSettings):
     celery_broker_url: str = "redis://localhost:6379/1"
     celery_result_backend: str = "redis://localhost:6379/2"
 
+    # Ingestion
+    chunk_target_tokens: int = 500
+    chunk_overlap_tokens: int = 50
+    embedding_model: str = "text-embedding-3-small"
+    embedding_batch_size: int = 100
+    embedding_dimensions: int = 1536
+
     @property
     def max_file_size_bytes(self) -> int:
         return self.max_file_size_mb * 1024 * 1024
