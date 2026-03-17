@@ -1,5 +1,17 @@
+import axios from "axios";
+
 export function cn(...classes: (string | boolean | undefined | null)[]): string {
   return classes.filter(Boolean).join(" ");
+}
+
+export function getApiErrorMessage(error: unknown): string | null {
+  if (axios.isAxiosError(error)) {
+    return error.response?.data?.error?.message || error.message;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return "An unexpected error occurred";
 }
 
 export function formatFileSize(bytes: number): string {

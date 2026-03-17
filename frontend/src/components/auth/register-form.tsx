@@ -6,7 +6,7 @@ import { useRegisterMutation } from "@/hooks/use-auth-mutations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ErrorMessage } from "@/components/ui/error-message";
-import type { AxiosError } from "axios";
+import { getApiErrorMessage } from "@/lib/utils";
 
 export function RegisterForm() {
   const [email, setEmail] = useState("");
@@ -27,11 +27,7 @@ export function RegisterForm() {
     register.mutate({ email, password, full_name: fullName });
   };
 
-  const serverError =
-    register.error instanceof Error
-      ? (register.error as AxiosError<{ error: { message: string } }>).response?.data?.error?.message ||
-        register.error.message
-      : null;
+  const serverError = register.error ? getApiErrorMessage(register.error) : null;
 
   const errorMessage = clientError || serverError;
 

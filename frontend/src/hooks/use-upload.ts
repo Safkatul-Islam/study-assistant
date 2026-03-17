@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import api from "@/lib/api";
@@ -21,6 +21,13 @@ export function useUpload() {
     progress: 0,
     error: null,
   });
+  const resetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+    };
+  }, []);
 
   const upload = async (file: File) => {
     try {
@@ -54,7 +61,7 @@ export function useUpload() {
       queryClient.invalidateQueries({ queryKey: ["documents"] });
 
       // Reset after a brief delay
-      setTimeout(() => {
+      resetTimerRef.current = setTimeout(() => {
         setState({ step: "idle", progress: 0, error: null });
       }, 2000);
     } catch (err) {
@@ -66,7 +73,10 @@ export function useUpload() {
     }
   };
 
-  const reset = () => setState({ step: "idle", progress: 0, error: null });
+  const reset = () => {
+    if (resetTimerRef.current) clearTimeout(resetTimerRef.current);
+    setState({ step: "idle", progress: 0, error: null });
+  };
 
   return { ...state, upload, reset };
 }

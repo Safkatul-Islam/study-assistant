@@ -6,7 +6,7 @@ import { useLoginMutation } from "@/hooks/use-auth-mutations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ErrorMessage } from "@/components/ui/error-message";
-import type { AxiosError } from "axios";
+import { getApiErrorMessage } from "@/lib/utils";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -18,11 +18,7 @@ export function LoginForm() {
     login.mutate({ email, password });
   };
 
-  const errorMessage =
-    login.error instanceof Error
-      ? (login.error as AxiosError<{ error: { message: string } }>).response?.data?.error?.message ||
-        login.error.message
-      : null;
+  const errorMessage = login.error ? getApiErrorMessage(login.error) : null;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

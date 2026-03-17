@@ -1,3 +1,4 @@
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,6 +12,9 @@ class Settings(BaseSettings):
     # App
     app_env: str = "development"
     debug: bool = True
+
+    # CORS
+    cors_origins: list[str] = ["http://localhost:3000"]
 
     # Database
     database_url: str = "postgresql+asyncpg://studyforge:studyforge@localhost:5432/studyforge"
@@ -54,6 +58,12 @@ class Settings(BaseSettings):
     def sync_database_url(self) -> str:
         """Sync URL for Alembic migrations."""
         return self.database_url.replace("+asyncpg", "+psycopg2")
+
+    @model_validator(mode="after")
+    def _validate_production(self) -> "Settings":
+        if self.app_env == "production" and self.jwt_secret_key == "change-me-in-production":
+            raise ValueError("JWT_SECRET_KEY must be changed in production")
+        return self
 
 
 settings = Settings()

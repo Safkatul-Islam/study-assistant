@@ -14,21 +14,28 @@ def ensure_bucket_exists() -> None:
     try:
         client.head_bucket(Bucket=bucket)
         logger.info("s3_bucket_exists", bucket=bucket)
-    except client.exceptions.ClientError:
-        client.create_bucket(Bucket=bucket)
-        logger.info("s3_bucket_created", bucket=bucket)
+    except client.exceptions.ClientError as exc:
+        error_code = exc.response.get("Error", {}).get("Code", "")
+        if error_code in ("404", "NoSuchBucket"):
+            client.create_bucket(Bucket=bucket)
+            logger.info("s3_bucket_created", bucket=bucket)
+        else:
+            raise
 
     # Set CORS policy for browser uploads
-    cors_config = {
-        "CORSRules": [
-            {
-                "AllowedHeaders": ["*"],
-                "AllowedMethods": ["GET", "PUT", "POST"],
-                "AllowedOrigins": ["http://localhost:3000"],
-                "ExposeHeaders": ["ETag"],
-                "MaxAgeSeconds": 3600,
-            }
-        ]
-    }
-    client.put_bucket_cors(Bucket=bucket, CORSConfiguration=cors_config)
-    logger.info("s3_cors_configured", bucket=bucket)
+    try:
+        cors_config = {
+            "CORSRules": [
+                {
+                    "AllowedHeaders": ["*"],
+                    "AllowedMethods": ["GET", "PUT", "POST"],
+                    "AllowedOrigins": settings.cors_origins,
+                    "ExposeHeaders": ["ETag"],
+                    "MaxAgeSeconds": 3600,
+                }
+            ]
+        }
+        client.put_bucket_cors(Bucket=bucket, CORSConfiguration=cors_config)
+        logger.info("s3_cors_configured", bucket=bucket)
+    except Exception:
+        logger.exception("s3_cors_configuration_failed", bucket=bucket)

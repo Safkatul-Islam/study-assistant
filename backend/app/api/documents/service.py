@@ -63,6 +63,6 @@ async def delete_user_document(
     db: AsyncSession, document_id: uuid.UUID, user_id: uuid.UUID
 ) -> Document:
     document = await get_user_document(db, document_id, user_id)
-    await db.delete(document)
+    db.delete(document)
     await db.flush()
     return document
