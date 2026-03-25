@@ -61,6 +61,36 @@ export interface Flashcard {
   difficulty: "unrated" | "easy" | "medium" | "hard";
 }
 
+// Workspace responses
+export interface SummaryResponse {
+  ok: boolean;
+  summary: Summary;
+  cached: boolean;
+}
+
+export interface ChatSession {
+  id: string;
+  title: string;
+  created_at: string;
+}
+
+export interface ChatResponseData {
+  ok: boolean;
+  session_id: string;
+  message: ChatMessage;
+}
+
+export interface ChatSessionsResponse {
+  ok: boolean;
+  sessions: ChatSession[];
+}
+
+export interface ChatHistoryResponse {
+  ok: boolean;
+  session: ChatSession;
+  messages: ChatMessage[];
+}
+
 // Generic error envelope
 export interface ApiError {
   ok: false;
