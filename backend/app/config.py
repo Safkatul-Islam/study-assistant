@@ -50,6 +50,20 @@ class Settings(BaseSettings):
     celery_broker_url: str = "redis://localhost:6379/1"
     celery_result_backend: str = "redis://localhost:6379/2"
 
+    # LLM
+    anthropic_model: str = "claude-sonnet-4-20250514"
+    llm_max_tokens: int = 4096
+    llm_temperature: float = 0.3
+    llm_max_retries: int = 3
+
+    # RAG
+    rag_top_k: int = 6
+    rag_max_history_messages: int = 10
+    rag_max_chunk_tokens: int = 800
+
+    # Summary
+    summary_max_context_tokens: int = 150_000
+
     # Ingestion
     chunk_target_tokens: int = 500
     chunk_overlap_tokens: int = 50
