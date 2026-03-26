@@ -63,3 +63,67 @@ class ChatHistoryResponse(BaseModel):
     ok: bool = True
     session: ChatSessionOut
     messages: list[ChatMessageOut]
+
+
+# --- Flashcards ---
+
+class FlashcardGenerateRequest(BaseModel):
+    regenerate: bool = False
+
+
+class FlashcardOut(BaseModel):
+    id: str
+    front: str
+    back: str
+    difficulty: str
+    source_chunk_id: str | None
+    last_reviewed_at: str | None
+    created_at: str
+    updated_at: str
+
+    model_config = {"from_attributes": True}
+
+
+class FlashcardGenerateResponse(BaseModel):
+    ok: bool = True
+    flashcards: list[FlashcardOut]
+    generated_count: int
+    was_cached: bool
+
+
+class FlashcardListResponse(BaseModel):
+    ok: bool = True
+    flashcards: list[FlashcardOut]
+    total: int
+    offset: int
+    limit: int
+
+
+class FlashcardDetailResponse(BaseModel):
+    ok: bool = True
+    flashcard: FlashcardOut
+
+
+class FlashcardUpdateRequest(BaseModel):
+    front: str | None = Field(None, min_length=1, max_length=2000)
+    back: str | None = Field(None, min_length=1, max_length=5000)
+    difficulty: str | None = Field(None, pattern="^(unrated|easy|medium|hard)$")
+
+
+class FlashcardStatsOut(BaseModel):
+    total: int
+    unrated: int
+    easy: int
+    medium: int
+    hard: int
+
+
+class StudyQueueResponse(BaseModel):
+    ok: bool = True
+    flashcards: list[FlashcardOut]
+    stats: FlashcardStatsOut
+
+
+class DeleteFlashcardsResponse(BaseModel):
+    ok: bool = True
+    deleted_count: int
