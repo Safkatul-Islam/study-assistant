@@ -59,6 +59,44 @@ export interface Flashcard {
   front: string;
   back: string;
   difficulty: "unrated" | "easy" | "medium" | "hard";
+  source_chunk_id: string | null;
+  last_reviewed_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface FlashcardStats {
+  total: number;
+  unrated: number;
+  easy: number;
+  medium: number;
+  hard: number;
+}
+
+export interface FlashcardsResponse {
+  ok: boolean;
+  flashcards: Flashcard[];
+  total: number;
+  offset: number;
+  limit: number;
+}
+
+export interface FlashcardGenerateResponse {
+  ok: boolean;
+  flashcards: Flashcard[];
+  generated_count: number;
+  was_cached: boolean;
+}
+
+export interface StudyQueueResponse {
+  ok: boolean;
+  flashcards: Flashcard[];
+  stats: FlashcardStats;
+}
+
+export interface FlashcardResponse {
+  ok: boolean;
+  flashcard: Flashcard;
 }
 
 // Workspace responses
