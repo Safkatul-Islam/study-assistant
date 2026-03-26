@@ -8,6 +8,7 @@ import api from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { SummaryPanel } from "@/components/workspace/summary-panel";
 import { ChatPanel } from "@/components/workspace/chat-panel";
+import { PracticePanel } from "@/components/workspace/practice-panel";
 import type { Document } from "@/types/api";
 
 type Tab = "summary" | "chat" | "practice";
@@ -86,11 +87,7 @@ export default function WorkspacePage() {
             <>
               {activeTab === "summary" && <SummaryPanel documentId={documentId} />}
               {activeTab === "chat" && <ChatPanel documentId={documentId} />}
-              {activeTab === "practice" && (
-                <div className="flex items-center justify-center h-full">
-                  <p className="text-gray-400">Practice mode coming soon</p>
-                </div>
-              )}
+              {activeTab === "practice" && <PracticePanel documentId={documentId} />}
             </>
           )}
         </div>
