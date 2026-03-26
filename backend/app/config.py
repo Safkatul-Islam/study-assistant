@@ -64,6 +64,11 @@ class Settings(BaseSettings):
     # Summary
     summary_max_context_tokens: int = 150_000
 
+    # Flashcards
+    flashcard_max_per_document: int = 30
+    daily_flashcard_generation_limit: int = 10
+    flashcard_generation_temperature: float = 0.4
+
     # Ingestion
     chunk_target_tokens: int = 500
     chunk_overlap_tokens: int = 50

@@ -1,7 +1,8 @@
 import enum
 import uuid
+from datetime import datetime
 
-from sqlalchemy import Enum, ForeignKey, String, Text
+from sqlalchemy import DateTime, Enum, ForeignKey, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -37,6 +38,9 @@ class Flashcard(UUIDPrimaryKey, TimestampMixin, Base):
     )
     difficulty: Mapped[FlashcardDifficulty] = mapped_column(
         Enum(FlashcardDifficulty), default=FlashcardDifficulty.UNRATED, nullable=False
+    )
+    last_reviewed_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True, default=None
     )
 
     # Relationships
