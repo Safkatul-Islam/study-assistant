@@ -23,6 +23,7 @@ export interface Document {
   error_message: string | null;
   created_at: string;
   updated_at: string;
+  tags: string[];
 }
 
 export interface InitUploadResponse {
