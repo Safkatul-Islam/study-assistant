@@ -63,6 +63,7 @@ def _make_mock_document(
     doc.status = status
     doc.error_message = None
     doc.summary_cache = None
+    doc.tags = None
     doc.created_at = NOW
     doc.updated_at = NOW
     return doc

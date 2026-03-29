@@ -68,6 +68,7 @@ def mock_document(document_id, user_id):
     doc.status = DocumentStatus.READY
     doc.error_message = None
     doc.summary_cache = None
+    doc.tags = None
     doc.created_at = datetime(2026, 1, 1, tzinfo=timezone.utc)
     doc.updated_at = datetime(2026, 1, 1, tzinfo=timezone.utc)
     return doc
