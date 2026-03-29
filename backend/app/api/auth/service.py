@@ -72,3 +72,18 @@ async def refresh_tokens(db: AsyncSession, refresh_token: str) -> tuple[User, di
         raise AppError(status_code=401, message="User not found or inactive")
 
     return user, generate_tokens(user)
+
+
+async def update_profile(db: AsyncSession, user: User, full_name: str) -> User:
+    user.full_name = full_name
+    await db.flush()
+    return user
+
+
+async def change_password(
+    db: AsyncSession, user: User, current_password: str, new_password: str
+) -> None:
+    if not verify_password(current_password, user.hashed_password):
+        raise AppError(status_code=400, message="Current password is incorrect")
+    user.hashed_password = hash_password(new_password)
+    await db.flush()

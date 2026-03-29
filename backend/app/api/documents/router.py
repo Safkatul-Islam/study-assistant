@@ -1,4 +1,5 @@
 import asyncio
+import json
 import re
 import uuid
 
@@ -8,17 +9,21 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.api.documents.schemas import (
     CompleteUploadRequest,
     DocumentListResponse,
-    DocumentOut,
     DocumentResponse,
     InitUploadRequest,
     InitUploadResponse,
+    RenameDocumentRequest,
+    UpdateTagsRequest,
 )
 from app.api.documents.service import (
     create_document,
     delete_user_document,
+    get_download_url,
     get_user_document,
     get_user_documents,
+    rename_document,
     update_document_status,
+    update_document_tags,
 )
 from app.config import settings
 from app.core.errors import AppError
@@ -32,6 +37,24 @@ from app.workers.tasks.ingestion import process_document
 router = APIRouter()
 
 ALLOWED_CONTENT_TYPES = {"application/pdf"}
+
+
+def _serialize_document(doc) -> dict:
+    """Serialize a document model to a dict including tags."""
+    tags = json.loads(doc.tags) if doc.tags else []
+    data = {
+        "id": str(doc.id),
+        "title": doc.title,
+        "file_name": doc.file_name,
+        "file_size": doc.file_size,
+        "page_count": doc.page_count,
+        "status": str(doc.status.value) if hasattr(doc.status, "value") else str(doc.status),
+        "error_message": doc.error_message,
+        "tags": tags,
+        "created_at": doc.created_at,
+        "updated_at": doc.updated_at,
+    }
+    return data
 
 
 def _sanitize_filename(name: str) -> str:
@@ -111,7 +134,7 @@ async def complete_upload(
         await update_document_status(db, document, DocumentStatus.UPLOADED)
         raise AppError(status_code=503, message="Processing service unavailable. Please try again.")
 
-    return DocumentResponse(document=DocumentOut.model_validate(document))
+    return {"ok": True, "document": _serialize_document(document)}
 
 
 @router.get("", response_model=DocumentListResponse)
@@ -120,9 +143,7 @@ async def list_documents(
     db: AsyncSession = Depends(get_db),
 ):
     documents = await get_user_documents(db, user.id)
-    return DocumentListResponse(
-        documents=[DocumentOut.model_validate(doc) for doc in documents]
-    )
+    return {"ok": True, "documents": [_serialize_document(doc) for doc in documents]}
 
 
 @router.get("/{document_id}", response_model=DocumentResponse)
@@ -132,7 +153,7 @@ async def get_document(
     db: AsyncSession = Depends(get_db),
 ):
     document = await get_user_document(db, document_id, user.id)
-    return DocumentResponse(document=DocumentOut.model_validate(document))
+    return {"ok": True, "document": _serialize_document(document)}
 
 
 @router.delete("/{document_id}", status_code=204)
@@ -146,3 +167,38 @@ async def delete_document(
     await asyncio.to_thread(delete_s3_object, document.s3_key)
     await delete_user_document(db, document_id, user.id)
     return None
+
+
+@router.patch("/{document_id}")
+async def rename_document_endpoint(
+    document_id: uuid.UUID,
+    body: RenameDocumentRequest,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    document = await get_user_document(db, document_id, user.id)
+    document = await rename_document(db, document, body.title)
+    return {"ok": True, "document": _serialize_document(document)}
+
+
+@router.put("/{document_id}/tags")
+async def update_tags_endpoint(
+    document_id: uuid.UUID,
+    body: UpdateTagsRequest,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    document = await get_user_document(db, document_id, user.id)
+    document = await update_document_tags(db, document, body.tags)
+    return {"ok": True, "tags": json.loads(document.tags) if document.tags else []}
+
+
+@router.get("/{document_id}/download-url")
+async def get_download_url_endpoint(
+    document_id: uuid.UUID,
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    document = await get_user_document(db, document_id, user.id)
+    url = await asyncio.to_thread(get_download_url, document)
+    return {"ok": True, "url": url}

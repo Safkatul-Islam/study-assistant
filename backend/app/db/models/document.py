@@ -31,6 +31,7 @@ class Document(UUIDPrimaryKey, TimestampMixin, Base):
     )
     error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
     summary_cache: Mapped[str | None] = mapped_column(Text, nullable=True)
+    tags: Mapped[str | None] = mapped_column(Text, nullable=True, default=None)
 
     # Relationships
     user = relationship("User", back_populates="documents")

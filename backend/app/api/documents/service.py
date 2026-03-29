@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from sqlalchemy import select
@@ -5,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.errors import NotFoundError
 from app.db.models.document import Document, DocumentStatus
+from app.services.storage import generate_presigned_download_url
 
 
 async def create_document(
@@ -66,3 +68,19 @@ async def delete_user_document(
     db.delete(document)
     await db.flush()
     return document
+
+
+async def rename_document(db: AsyncSession, document: Document, title: str) -> Document:
+    document.title = title
+    await db.flush()
+    return document
+
+
+async def update_document_tags(db: AsyncSession, document: Document, tags: list[str]) -> Document:
+    document.tags = json.dumps(tags) if tags else None
+    await db.flush()
+    return document
+
+
+def get_download_url(document: Document) -> str:
+    return generate_presigned_download_url(document.s3_key)

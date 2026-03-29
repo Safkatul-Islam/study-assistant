@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class InitUploadRequest(BaseModel):
@@ -28,6 +28,7 @@ class DocumentOut(BaseModel):
     page_count: int | None
     status: str
     error_message: str | None
+    tags: list[str] = []
     created_at: datetime
     updated_at: datetime
 
@@ -42,3 +43,11 @@ class DocumentResponse(BaseModel):
 class DocumentListResponse(BaseModel):
     ok: bool = True
     documents: list[DocumentOut]
+
+
+class RenameDocumentRequest(BaseModel):
+    title: str = Field(min_length=1, max_length=500)
+
+
+class UpdateTagsRequest(BaseModel):
+    tags: list[str] = Field(default_factory=list, max_length=20)

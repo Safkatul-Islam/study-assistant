@@ -1,8 +1,24 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.auth.schemas import AuthResponse, LoginRequest, RefreshRequest, RegisterRequest, UserOut, UserResponse
-from app.api.auth.service import authenticate_user, generate_tokens, refresh_tokens, register_user
+from app.api.auth.schemas import (
+    AuthResponse,
+    ChangePasswordRequest,
+    LoginRequest,
+    RefreshRequest,
+    RegisterRequest,
+    UpdateProfileRequest,
+    UserOut,
+    UserResponse,
+)
+from app.api.auth.service import (
+    authenticate_user,
+    change_password,
+    generate_tokens,
+    refresh_tokens,
+    register_user,
+    update_profile,
+)
 from app.db.models.user import User
 from app.db.session import get_db
 from app.dependencies import get_current_user
@@ -44,3 +60,25 @@ async def login(body: LoginRequest, db: AsyncSession = Depends(get_db)):
         **tokens,
         user=UserOut(id=str(user.id), email=user.email, full_name=user.full_name),
     )
+
+
+@router.patch("/me", response_model=UserResponse)
+async def update_me(
+    body: UpdateProfileRequest,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    updated = await update_profile(db, user, body.full_name)
+    return UserResponse(
+        user=UserOut(id=str(updated.id), email=updated.email, full_name=updated.full_name),
+    )
+
+
+@router.put("/me/password")
+async def update_password(
+    body: ChangePasswordRequest,
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    await change_password(db, user, body.current_password, body.new_password)
+    return {"ok": True, "message": "Password updated"}
