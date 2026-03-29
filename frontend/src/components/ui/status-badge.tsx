@@ -3,10 +3,10 @@
 import { cn } from "@/lib/utils";
 
 const statusConfig = {
-  uploaded: { label: "Uploaded", className: "bg-gray-100 text-gray-700" },
-  processing: { label: "Processing", className: "bg-yellow-100 text-yellow-800 animate-pulse" },
-  ready: { label: "Ready", className: "bg-green-100 text-green-700" },
-  failed: { label: "Failed", className: "bg-red-100 text-red-700" },
+  uploaded: { label: "Uploaded", className: "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300" },
+  processing: { label: "Processing", className: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 animate-pulse" },
+  ready: { label: "Ready", className: "bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300" },
+  failed: { label: "Failed", className: "bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300" },
 };
 
 interface StatusBadgeProps {

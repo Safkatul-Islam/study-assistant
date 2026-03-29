@@ -122,7 +122,7 @@ export function StudyMode({ documentId, flashcards: initialFlashcards, stats: in
   if (!currentCard) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className="text-gray-400">No flashcards to study.</p>
+        <p className="text-gray-400 dark:text-gray-500">No flashcards to study.</p>
       </div>
     );
   }
@@ -145,19 +145,19 @@ export function StudyMode({ documentId, flashcards: initialFlashcards, stats: in
       <div className="flex items-center gap-4">
         <button
           onClick={goPrev}
-          className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors"
+          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors"
           aria-label="Previous card"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-gray-500 dark:text-gray-400">
           {currentIndex + 1} / {cards.length}
         </span>
         <button
           onClick={goNext}
-          className="p-2 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors"
+          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-colors"
           aria-label="Next card"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -175,7 +175,7 @@ export function StudyMode({ documentId, flashcards: initialFlashcards, stats: in
       />
 
       {/* Keyboard hints */}
-      <p className="text-xs text-gray-400 text-center pb-2">
+      <p className="text-xs text-gray-400 dark:text-gray-500 text-center pb-2">
         Space to flip &middot; 1/2/3 to rate &middot; &larr;&rarr; to navigate
       </p>
     </div>

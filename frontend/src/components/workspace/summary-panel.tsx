@@ -21,7 +21,7 @@ export function SummaryPanel({ documentId }: SummaryPanelProps) {
   }
 
   if (!data?.summary) {
-    return <p className="text-gray-500">No summary available.</p>;
+    return <p className="text-gray-500 dark:text-gray-400">No summary available.</p>;
   }
 
   const { summary } = data;
@@ -30,12 +30,12 @@ export function SummaryPanel({ documentId }: SummaryPanelProps) {
     <div className="space-y-6">
       {/* Executive Summary */}
       <section>
-        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-3">
           Executive Summary
         </h3>
         <ul className="space-y-2">
           {summary.executive_summary.map((point, i) => (
-            <li key={i} className="flex gap-2 text-sm text-gray-700">
+            <li key={i} className="flex gap-2 text-sm text-gray-700 dark:text-gray-300">
               <span className="text-blue-500 mt-1 shrink-0">&bull;</span>
               <span>{point}</span>
             </li>
@@ -45,14 +45,14 @@ export function SummaryPanel({ documentId }: SummaryPanelProps) {
 
       {/* Key Concepts */}
       <section>
-        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-3">
           Key Concepts
         </h3>
         <div className="flex flex-wrap gap-2">
           {summary.key_concepts.map((concept, i) => (
             <span
               key={i}
-              className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700"
+              className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/30 px-3 py-1 text-xs font-medium text-blue-700 dark:text-blue-300"
             >
               {concept}
             </span>
@@ -63,14 +63,14 @@ export function SummaryPanel({ documentId }: SummaryPanelProps) {
       {/* Definitions */}
       {Object.keys(summary.definitions).length > 0 && (
         <section>
-          <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-3">
             Key Definitions
           </h3>
           <dl className="space-y-3">
             {Object.entries(summary.definitions).map(([term, definition]) => (
-              <div key={term} className="rounded-lg bg-gray-50 p-3">
-                <dt className="text-sm font-medium text-gray-900">{term}</dt>
-                <dd className="mt-1 text-sm text-gray-600">{definition}</dd>
+              <div key={term} className="rounded-lg bg-gray-50 dark:bg-gray-800 p-3">
+                <dt className="text-sm font-medium text-gray-900 dark:text-gray-100">{term}</dt>
+                <dd className="mt-1 text-sm text-gray-600 dark:text-gray-400">{definition}</dd>
               </div>
             ))}
           </dl>
@@ -79,12 +79,12 @@ export function SummaryPanel({ documentId }: SummaryPanelProps) {
 
       {/* Possible Questions */}
       <section>
-        <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-3">
+        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wide mb-3">
           Study Questions
         </h3>
         <ol className="space-y-2 list-decimal list-inside">
           {summary.possible_questions.map((question, i) => (
-            <li key={i} className="text-sm text-gray-700">
+            <li key={i} className="text-sm text-gray-700 dark:text-gray-300">
               {question}
             </li>
           ))}

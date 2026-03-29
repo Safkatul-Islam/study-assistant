@@ -19,7 +19,7 @@ export function GenerateFlashcards({ documentId }: GenerateFlashcardsProps) {
         height="48"
         viewBox="0 0 48 48"
         fill="none"
-        className="text-gray-300"
+        className="text-gray-300 dark:text-gray-600"
       >
         <rect x="4" y="8" width="28" height="32" rx="3" stroke="currentColor" strokeWidth="2" />
         <rect x="16" y="8" width="28" height="32" rx="3" stroke="currentColor" strokeWidth="2" />
@@ -27,10 +27,10 @@ export function GenerateFlashcards({ documentId }: GenerateFlashcardsProps) {
         <path d="M30 20v-2M30 30v-2M34 24h2M26 24h-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       </svg>
 
-      <h3 className="text-lg font-semibold text-gray-900">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
         Generate Flashcards
       </h3>
-      <p className="text-sm text-gray-500 text-center max-w-xs">
+      <p className="text-sm text-gray-500 dark:text-gray-400 text-center max-w-xs">
         AI will create study flashcards from your document
       </p>
 

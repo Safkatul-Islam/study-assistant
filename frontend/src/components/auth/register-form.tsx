@@ -65,9 +65,9 @@ export function RegisterForm() {
       <Button type="submit" className="w-full" isLoading={register.isPending}>
         Create account
       </Button>
-      <p className="text-center text-sm text-gray-600">
+      <p className="text-center text-sm text-gray-600 dark:text-gray-400">
         Already have an account?{" "}
-        <Link href="/login" className="text-blue-600 hover:underline">
+        <Link href="/login" className="text-blue-600 dark:text-blue-400 hover:underline">
           Sign in
         </Link>
       </p>

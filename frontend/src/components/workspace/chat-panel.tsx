@@ -80,7 +80,7 @@ export function ChatPanel({ documentId }: ChatPanelProps) {
       <div className="flex-1 overflow-y-auto space-y-4 pb-4">
         {localMessages.length === 0 && !sendMessage.isPending && (
           <div className="flex items-center justify-center h-full">
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-400 dark:text-gray-500 text-sm">
               Ask a question about this document to get started.
             </p>
           </div>
@@ -93,11 +93,11 @@ export function ChatPanel({ documentId }: ChatPanelProps) {
         {/* Typing indicator */}
         {sendMessage.isPending && (
           <div className="flex gap-2 items-start">
-            <div className="bg-gray-100 rounded-2xl rounded-tl-none px-4 py-3 max-w-[80%]">
+            <div className="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-none px-4 py-3 max-w-[80%]">
               <div className="flex gap-1">
-                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                <span className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                <span className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                <span className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ export function ChatPanel({ documentId }: ChatPanelProps) {
       )}
 
       {/* Input area */}
-      <div className="border-t pt-3">
+      <div className="border-t dark:border-gray-700 pt-3">
         <div className="flex gap-2">
           <textarea
             value={input}
@@ -124,7 +124,7 @@ export function ChatPanel({ documentId }: ChatPanelProps) {
             onKeyDown={handleKeyDown}
             placeholder="Ask about this document..."
             rows={1}
-            className="flex-1 resize-none rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 resize-none rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder:text-gray-400 dark:placeholder:text-gray-500"
             disabled={sendMessage.isPending}
           />
           <Button
@@ -136,7 +136,7 @@ export function ChatPanel({ documentId }: ChatPanelProps) {
             Send
           </Button>
         </div>
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">
           Press Enter to send, Shift+Enter for new line
         </p>
       </div>
@@ -153,7 +153,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm ${
           isUser
             ? "bg-blue-600 text-white rounded-tr-none"
-            : "bg-gray-100 text-gray-900 rounded-tl-none"
+            : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-tl-none"
         }`}
       >
         <p className="whitespace-pre-wrap">{message.content}</p>

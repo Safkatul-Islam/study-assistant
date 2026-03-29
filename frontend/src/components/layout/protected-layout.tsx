@@ -19,7 +19,7 @@ export function ProtectedLayout({ children }: { children: React.ReactNode }) {
   if (isLoading) {
     return (
       <div className="min-h-screen">
-        <div className="sticky top-0 z-50 border-b border-gray-200 bg-white">
+        <div className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
           <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
             <Skeleton className="h-6 w-28" />
             <Skeleton className="h-8 w-20" />
@@ -42,7 +42,7 @@ export function ProtectedLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <AppHeader />
       <main className="mx-auto max-w-5xl p-8">{children}</main>
     </div>

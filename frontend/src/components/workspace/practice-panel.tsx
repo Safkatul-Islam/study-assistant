@@ -37,7 +37,7 @@ export function PracticePanel({ documentId }: PracticePanelProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Mode toggle */}
-      <div className="flex gap-1 bg-gray-100 rounded-lg p-1 w-fit mb-4">
+      <div className="flex gap-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1 w-fit mb-4">
         {(["study", "overview"] as Mode[]).map((m) => (
           <button
             key={m}
@@ -45,8 +45,8 @@ export function PracticePanel({ documentId }: PracticePanelProps) {
             className={cn(
               "px-4 py-1.5 text-sm font-medium rounded-md transition-colors capitalize",
               mode === m
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
             )}
           >
             {m}

@@ -44,9 +44,9 @@ export function LoginForm() {
       <Button type="submit" className="w-full" isLoading={login.isPending}>
         Sign in
       </Button>
-      <p className="text-center text-sm text-gray-600">
+      <p className="text-center text-sm text-gray-600 dark:text-gray-400">
         Don&apos;t have an account?{" "}
-        <Link href="/register" className="text-blue-600 hover:underline">
+        <Link href="/register" className="text-blue-600 dark:text-blue-400 hover:underline">
           Sign up
         </Link>
       </p>

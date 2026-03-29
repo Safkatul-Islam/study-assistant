@@ -12,9 +12,9 @@ interface DifficultyRatingProps {
 }
 
 const options = [
-  { value: "easy", label: "Easy", key: "1", base: "bg-green-100 text-green-700", active: "ring-2 ring-green-500" },
-  { value: "medium", label: "Medium", key: "2", base: "bg-yellow-100 text-yellow-800", active: "ring-2 ring-yellow-500" },
-  { value: "hard", label: "Hard", key: "3", base: "bg-red-100 text-red-700", active: "ring-2 ring-red-500" },
+  { value: "easy", label: "Easy", key: "1", base: "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400", active: "ring-2 ring-green-500" },
+  { value: "medium", label: "Medium", key: "2", base: "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-400", active: "ring-2 ring-yellow-500" },
+  { value: "hard", label: "Hard", key: "3", base: "bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400", active: "ring-2 ring-red-500" },
 ];
 
 export function DifficultyRating({ onRate, currentDifficulty, disabled, visible }: DifficultyRatingProps) {

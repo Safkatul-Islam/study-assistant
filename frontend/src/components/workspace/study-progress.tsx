@@ -14,11 +14,11 @@ export function StudyProgress({ current, total, stats }: StudyProgressProps) {
 
   return (
     <div className="space-y-2">
-      <p className="text-sm font-medium text-gray-700">
+      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
         Card {current + 1} of {total}
       </p>
 
-      <div className="h-2 w-full rounded-full bg-gray-200">
+      <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
         <div
           className="h-2 rounded-full bg-blue-500 transition-all duration-300"
           style={{ width: `${progressPercent}%` }}

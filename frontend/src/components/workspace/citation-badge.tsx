@@ -24,11 +24,23 @@ export function CitationBadge({ citation }: CitationBadgeProps) {
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-700 cursor-help">
+      <button
+        type="button"
+        onClick={() => {
+          if (citation.page_start) {
+            window.dispatchEvent(
+              new CustomEvent("citation-navigate", {
+                detail: { page: citation.page_start },
+              })
+            );
+          }
+        }}
+        className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-300 cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-900/60 transition-colors"
+      >
         [{label}]
-      </span>
+      </button>
       {showTooltip && (
-        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded-lg bg-gray-900 px-3 py-2 text-xs text-white shadow-lg z-10">
+        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded-lg bg-gray-900 dark:bg-gray-700 px-3 py-2 text-xs text-white shadow-lg z-10">
           {citation.snippet}
         </span>
       )}

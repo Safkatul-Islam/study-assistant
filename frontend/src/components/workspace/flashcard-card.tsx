@@ -26,9 +26,9 @@ export function FlashcardCard({ flashcard, isFlipped, onFlip }: FlashcardCardPro
         {/* Front face */}
         <div
           style={{ backfaceVisibility: "hidden" }}
-          className="absolute inset-0 flex items-center justify-center bg-white rounded-2xl shadow-lg border p-8"
+          className="absolute inset-0 flex items-center justify-center bg-white dark:bg-gray-800 rounded-2xl shadow-lg border dark:border-gray-700 p-8"
         >
-          <p className="text-lg text-gray-900 text-center whitespace-pre-wrap">
+          <p className="text-lg text-gray-900 dark:text-gray-100 text-center whitespace-pre-wrap">
             {flashcard.front}
           </p>
         </div>
@@ -36,9 +36,9 @@ export function FlashcardCard({ flashcard, isFlipped, onFlip }: FlashcardCardPro
         {/* Back face */}
         <div
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-          className="absolute inset-0 flex items-center justify-center bg-blue-50 rounded-2xl shadow-lg border border-blue-200 p-8"
+          className="absolute inset-0 flex items-center justify-center bg-blue-50 dark:bg-blue-900/30 rounded-2xl shadow-lg border border-blue-200 dark:border-blue-800 p-8"
         >
-          <p className="text-lg text-gray-900 text-center whitespace-pre-wrap">
+          <p className="text-lg text-gray-900 dark:text-gray-100 text-center whitespace-pre-wrap">
             {flashcard.back}
           </p>
         </div>

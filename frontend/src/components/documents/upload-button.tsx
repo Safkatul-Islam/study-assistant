@@ -55,7 +55,7 @@ export function UploadButton() {
       <Button onClick={handleClick} isLoading={isUploading} disabled={isUploading}>
         {label}
       </Button>
-      {error && <span className="text-sm text-red-600">{error}</span>}
+      {error && <span className="text-sm text-red-600 dark:text-red-400">{error}</span>}
     </div>
   );
 }
